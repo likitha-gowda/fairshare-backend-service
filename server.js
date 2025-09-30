@@ -1,7 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import errorHandler from './middleware/errorHandler.js';
-//import userRoutes from './routes/users.js';
+import userRoutes from './routes/users.js';
 
 dotenv.config();
 const app = express();
@@ -12,7 +12,7 @@ app.use(express.json());
 
 app.use(express.json())
 // app.use('/api/contacts', routes);
-// app.use('/api/users', require('./routes/userRoutes'));
+app.use('/api/users', userRoutes);
 app.use(errorHandler);
 
 app.get('/', (req, res) => {
