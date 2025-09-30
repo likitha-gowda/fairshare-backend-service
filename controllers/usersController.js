@@ -8,11 +8,12 @@ import { findUserByEmail, createUser } from "../models/userModel.js";
 // @access Public
 export const registerUser = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
+  console.log('Request body:', req.body);
   if (!username || !email || !password) {
     res.status(400);
     throw new Error("All fields are mandatory");
   }
-
+  console.log('Checking if user exists for email:', findUserByEmail(email));
   const userAvailable = await findUserByEmail(email);
   if (userAvailable) {
     res.status(400);

@@ -1,8 +1,13 @@
-import pool from "../db/index.js";
+import client from "../config/db.js";
 
 // Find user by email
 export const findUserByEmail = async (email) => {
-  const result = await pool.query(
+    console.log('Email in model:', email);
+    console.log('Pool in model:', client.query(
+    "SELECT * FROM fairshare.users WHERE email = $1",
+    [email]
+  ));
+  const result = await client.query(
     "SELECT * FROM fairshare.users WHERE email = $1",
     [email]
   );
@@ -11,11 +16,13 @@ export const findUserByEmail = async (email) => {
 
 // Create new user
 export const createUser = async (username, email, passwordHash) => {
-  const result = await pool.query(
+  const result = await client.query(
     `INSERT INTO fairshare.users (username, email, password_hash)
      VALUES ($1, $2, $3)
      RETURNING id, username, email`,
     [username, email, passwordHash]
-  );
-  return result.rows[0];
+    );
+    console.log('New user created with ID:', result.rows[0])
+    return result.rows[0];
+    
 };
